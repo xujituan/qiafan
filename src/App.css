@@ -1,0 +1,373 @@
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #e85d3a;
+  --color-primary-dark: #c94a2a;
+  --color-bg: #fefaf6;
+  --color-card-bg: #ffffff;
+  --color-text: #2d2d2d;
+  --color-text-muted: #888;
+  --color-border: #f0e6dd;
+  --color-overlay: rgba(0, 0, 0, 0.5);
+  --color-accent-noodle: #fdf2ed;
+  --color-accent-rice: #fef9f0;
+  --color-accent-hotpot: #fef4f0;
+  --color-accent-snack: #fefaf0;
+  --color-accent-western: #fdf5ee;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100dvh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100dvh;
+}
+
+/* ===== App Layout ===== */
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60px 20px 40px;
+}
+
+.main {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* ===== Header ===== */
+.header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.title-dot {
+  color: var(--color-primary);
+}
+
+.subtitle {
+  margin-top: 10px;
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+/* ===== Food Grid ===== */
+.food-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+/* ===== Food Card ===== */
+.food-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 22px;
+  background: var(--color-card-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: default;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.food-card:hover {
+  transform: translateY(-2px);
+  border-color: #e0c8b4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.food-card.spinning {
+  animation: cardPulse 0.15s infinite alternate;
+}
+
+.food-card.selected {
+  border-color: var(--color-primary);
+  background: #fef5f2;
+  box-shadow: 0 0 0 3px rgba(232, 93, 58, 0.15);
+  transform: scale(1.08);
+  animation: bounce 0.5s ease;
+}
+
+.food-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.food-category {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  background: #f5f0eb;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+@keyframes cardPulse {
+  from {
+    opacity: 0.5;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+/* ===== Picker Button ===== */
+.picker-button {
+  padding: 16px 48px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(232, 93, 58, 0.3);
+  font-family: inherit;
+}
+
+.picker-button:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(232, 93, 58, 0.4);
+}
+
+.picker-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.picker-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.picker-button.spinning {
+  animation: buttonPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(232, 93, 58, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 36px rgba(232, 93, 58, 0.55);
+  }
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-overlay);
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 24px;
+  padding: 48px 56px;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-emoji {
+  font-size: 4rem;
+  line-height: 1;
+  margin-bottom: 16px;
+  animation: emojiPop 0.5s ease 0.15s both;
+}
+
+.modal-label {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.modal-food {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.modal-category {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  background: #f5f0eb;
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 20px;
+  margin-bottom: 28px;
+}
+
+.modal-close {
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--color-primary);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.modal-close:hover {
+  background: var(--color-primary-dark);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes emojiPop {
+  from {
+    opacity: 0;
+    transform: scale(0.3) rotate(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .app {
+    padding: 36px 16px 32px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+  }
+
+  .food-grid {
+    gap: 8px;
+  }
+
+  .food-card {
+    padding: 10px 16px;
+  }
+
+  .food-name {
+    font-size: 0.95rem;
+  }
+
+  .picker-button {
+    padding: 14px 36px;
+    font-size: 1.1rem;
+  }
+
+  .modal-content {
+    padding: 36px 32px;
+    border-radius: 20px;
+  }
+
+  .modal-food {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .food-card {
+    padding: 8px 12px;
+  }
+
+  .food-name {
+    font-size: 0.85rem;
+  }
+
+  .modal-content {
+    padding: 28px 24px;
+  }
+
+  .modal-food {
+    font-size: 1.6rem;
+  }
+}
